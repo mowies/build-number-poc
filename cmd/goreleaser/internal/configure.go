@@ -67,14 +67,6 @@ var (
 			&fullBuildConfig{targetOS: "darwin", targetArch: darwinArchs, buildDir: defaultBuildDir},
 			&fullBuildConfig{targetOS: "windows", targetArch: winArchs, buildDir: defaultBuildDir},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", baseArchs, containerImageOptions{armVersion: "7"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2019"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2022"}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", baseArchs, containerImageOptions{}),
-		)
 	}).WithPackagingDefaults().WithDefaultConfigIncluded().Build()
 
 	// otlp distro
@@ -84,14 +76,6 @@ var (
 			&fullBuildConfig{targetOS: "darwin", targetArch: darwinArchs, buildDir: defaultBuildDir},
 			&fullBuildConfig{targetOS: "windows", targetArch: winArchs, buildDir: defaultBuildDir},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", baseArchs, containerImageOptions{armVersion: "7"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2019"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2022"}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", baseArchs, containerImageOptions{}),
-		)
 	}).WithPackagingDefaults().Build()
 
 	// contrib distro
@@ -119,14 +103,6 @@ var (
 				},
 			},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", baseArchs, containerImageOptions{armVersion: "7"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2019"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2022"}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", baseArchs, containerImageOptions{}),
-		)
 	}).WithPackagingDefaults().WithDefaultConfigIncluded().Build()
 
 	// contrib build-only project
@@ -150,14 +126,6 @@ var (
 			&fullBuildConfig{targetOS: "linux", targetArch: k8sArchs, buildDir: defaultBuildDir, ppc64Version: []string{"power8"}},
 			&fullBuildConfig{targetOS: "windows", targetArch: winContainerArchs, buildDir: defaultBuildDir},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", k8sArchs, containerImageOptions{armVersion: "7"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2019"}),
-			newContainerImages(d.name, "windows", winContainerArchs, containerImageOptions{winVersion: "2022"}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", k8sArchs, containerImageOptions{}),
-		)
 	}).WithDefaultArchives().
 		WithDefaultChecksum().
 		WithDefaultSigns().
@@ -175,12 +143,6 @@ var (
 		d.buildConfigs = []buildConfig{
 			&fullBuildConfig{targetOS: "linux", targetArch: ebpfProfilerArchs, buildDir: defaultBuildDir},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", ebpfProfilerArchs, containerImageOptions{}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", ebpfProfilerArchs, containerImageOptions{}),
-		)
 		d.env = append(d.env, "TARGET_ARCH={{ .Runtime.Goarch }}")
 		d.ldFlags = "-extldflags=-static"
 		d.goTags = "osusergo,netgo"
@@ -203,12 +165,6 @@ var (
 			&fullBuildConfig{targetOS: "darwin", targetArch: darwinArchs, binaryName: "ocb"},
 			&fullBuildConfig{targetOS: "windows", targetArch: []string{"amd64"}, binaryName: "ocb"},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", ocbArchs, containerImageOptions{binaryRelease: true}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", ocbArchs, containerImageOptions{binaryRelease: true}),
-		)
 		d.ldFlags = "-s -w -X go.opentelemetry.io/collector/cmd/builder/internal.version={{ .Version }}"
 	}).WithBinaryPackagingDefaults().
 		WithBinaryMonorepo(".core/cmd/builder").
@@ -223,12 +179,6 @@ var (
 			&fullBuildConfig{targetOS: "darwin", targetArch: darwinArchs, binaryName: "opampsupervisor"},
 			&fullBuildConfig{targetOS: "windows", targetArch: []string{"amd64"}, binaryName: "opampsupervisor"},
 		}
-		d.containerImages = slices.Concat(
-			newContainerImages(d.name, "linux", opAmpArchs, containerImageOptions{binaryRelease: true}),
-		)
-		d.containerImageManifests = slices.Concat(
-			newContainerImageManifests(d.name, "linux", opAmpArchs, containerImageOptions{binaryRelease: true}),
-		)
 		d.ldFlags = "-s -w -X github.com/open-telemetry/opentelemetry-collector-contrib/cmd/opampsupervisor/internal.version={{ .Version }}"
 	}).WithBinaryPackagingDefaults().
 		WithBinaryMonorepo(".contrib/cmd/opampsupervisor").
